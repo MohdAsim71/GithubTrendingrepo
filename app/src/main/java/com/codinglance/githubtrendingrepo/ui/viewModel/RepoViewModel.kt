@@ -5,12 +5,12 @@ import android.app.Application
 import android.content.Context
 import android.os.BatteryManager
 import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.codinglance.githubtrendingrepo.model.DBData
 import com.codinglance.githubtrendingrepo.model.Item
 import com.codinglance.githubtrendingrepo.model.RepoResponse
 import com.codinglance.githubtrendingrepo.repository.Repository
@@ -38,7 +38,7 @@ class RepoViewModel @Inject constructor(
     private val durationMillis = TimeUnit.MINUTES.toMillis(5)
 
     init {
-    startPeriodicApiCalls()
+   // startPeriodicApiCalls()
 
         // Perform the sequence of operations
         viewModelScope.launch {
@@ -87,30 +87,53 @@ class RepoViewModel @Inject constructor(
         handler.post(runnable)
     }
 
+//    fun getRepo() {
+//        viewModelScope.launch(Dispatchers.IO)
+//        {
+//            _repoState.postValue(ResultState.Loading)
+//
+//
+//            try {
+//
+//                val response=repository.getRepo()
+//
+//                if (response.items.isNotEmpty()) {
+//                    _repoState.postValue(ResultState.Success(response))
+//                    repolist= response.items as ArrayList<Item>
+//                    mSubscriber.postValue(true)
+//                    // Map the items to ItemEntity and insert into Room
+//                    val itemEntities = repolist.map { mapToItemEntity(it) }
+//                    repository.insert(itemEntities)
+//                }
+//            }
+//
+//            catch (e:Exception){
+//                _repoState.postValue(ResultState.Error(e.localizedMessage.toString()))
+//
+//            }
+//
+//        }
+//    }
+
+//remove try catch to get room migration crash
     fun getRepo() {
-        viewModelScope.launch(Dispatchers.IO)
-        {
+        viewModelScope.launch(Dispatchers.IO) {
             _repoState.postValue(ResultState.Loading)
 
+            val response = repository.getRepo()
 
-            try {
+            if (response.items.isNotEmpty()) {
+                _repoState.postValue(ResultState.Success(response))
+                repolist = response.items as ArrayList<Item>
+                mSubscriber.postValue(true)
 
-                val response=repository.getRepo()
-
-                if (response.items.isNotEmpty()) {
-                    _repoState.postValue(ResultState.Success(response))
-                    repolist= response.items as ArrayList<Item>
-                    mSubscriber.postValue(true)
-                }
+                // Map the items to ItemEntity and insert into Room
+                val itemEntities = repolist.map { mapToItemEntity(it) }
+                repository.insert(itemEntities)
             }
-
-            catch (e:Exception){
-                _repoState.postValue(ResultState.Error(e.localizedMessage.toString()))
-
-            }
-
         }
     }
+
 
     fun startHeavyComputation() {
         viewModelScope.launch {
@@ -121,6 +144,13 @@ class RepoViewModel @Inject constructor(
                 // delay(1000) // Adjust delay to control frequency if needed
             }
         }
+    }
+    fun mapToItemEntity(item: Item): DBData {
+        return DBData(
+            name = item.name,
+           // owner = item.owner,
+            description = item.description
+        )
     }
 
     private suspend fun performHeavyComputation() {

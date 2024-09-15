@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(rootView)
         supportActionBar?.hide()
         binding.viewModel= repoViewModel
+        repoViewModel.getRepo()
         initViewModel()
         binding.searchEt.clearFocus()
         healthCollector = HealthStatsMetricsCollector(this)
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity() {
                     repoAdapter = RepoAdapter(this,repoViewModel.repolist)
                     binding.repoRecyclerview.adapter = repoAdapter
                     sCollector.getSnapshot(mFinalMetrics);
+
 //                    Log.d("Final C.P.U. Metrics", mFinalMetrics.toString());
 //                    Log.d("Final Network Metrics", networkFinalMetrics.toString());
 //                    Log.d("Final Time Metrics", timeFinalMetrics.toString());
