@@ -9,9 +9,8 @@ import androidx.room.PrimaryKey
 data class DBData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
-   // @Embedded val owner: Owner,
+    val owner: String ="",
     val description: String
-
     )
 
 

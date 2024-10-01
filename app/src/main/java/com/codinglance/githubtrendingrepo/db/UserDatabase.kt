@@ -7,7 +7,7 @@ import com.codinglance.githubtrendingrepo.model.DBData
 import com.codinglance.githubtrendingrepo.model.RepoResponse
 import com.codinglance.githubtrendingrepo.utils.Converters
 
-@Database(entities = [DBData::class], version = 1, exportSchema = false)
+@Database(entities = [DBData::class], version = 2, exportSchema = true)
 @TypeConverters(Converters::class) // Add this line
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): repoDao

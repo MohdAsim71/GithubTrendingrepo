@@ -22,7 +22,8 @@ object DatabaseModule {
             context,
             UserDatabase::class.java,
             "repo_database"
-        ).build()
+        )
+            .build()
     }
 
     @Provides

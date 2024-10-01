@@ -12,4 +12,9 @@ interface repoDao {
     @Insert
     suspend fun insertUser(user: List<DBData>)
 
+    @Query("SELECT * FROM repo_table WHERE id = :id")
+    suspend fun getUserById(id: Int): DBData?
+
+    @Query("SELECT * FROM repo_table")
+    suspend fun getAllUsers(): List<DBData>
 }

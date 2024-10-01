@@ -33,7 +33,7 @@ object RetrofitModule {
     @Singleton
     fun provideApiInterface(retrofit: Retrofit): ApiInterface = retrofit.create(ApiInterface::class.java)
 
-    private fun provideOkHttpClient(): OkHttpClient? {
+    fun provideOkHttpClient(): OkHttpClient? {
         //this is the part where you will see all the logs of retrofit requests
         //and responses
         val logging = HttpLoggingInterceptor()

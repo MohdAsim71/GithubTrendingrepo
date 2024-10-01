@@ -40,20 +40,20 @@ class RepoViewModel @Inject constructor(
     init {
    // startPeriodicApiCalls()
 
-        // Perform the sequence of operations
-        viewModelScope.launch {
-            // Fetch initial battery information
-            getBatteryInfo(application)
-
-            // Start the intensive background computation
-            startHeavyComputation()
-
-            // Delay for 5 minutes
-            delay(5 * 60 * 1000) // 5 minutes in milliseconds
-
-            // Fetch battery information again after 5 minutes
-            getBatteryInfo(application)
-        }
+//        // Perform the sequence of operations
+//        viewModelScope.launch {
+//            // Fetch initial battery information
+//            getBatteryInfo(application)
+//
+//            // Start the intensive background computation
+//            startHeavyComputation()
+//
+//            // Delay for 5 minutes
+//            delay(5 * 60 * 1000) // 5 minutes in milliseconds
+//
+//            // Fetch battery information again after 5 minutes
+//            getBatteryInfo(application)
+//        }
     }
 
 
@@ -148,11 +148,14 @@ class RepoViewModel @Inject constructor(
     fun mapToItemEntity(item: Item): DBData {
         return DBData(
             name = item.name,
-           // owner = item.owner,
+            owner = item.owner.toString(),
             description = item.description
         )
     }
 
+    fun multiplicationOfTwoNumber(num1: Int, num2: Int): Int {
+        return num1 * num2
+    }
     private suspend fun performHeavyComputation() {
         withContext(Dispatchers.Default) {
             // Simulate continuous heavy computation
@@ -170,7 +173,7 @@ class RepoViewModel @Inject constructor(
         }
     }
 
-    private fun generatePrimes(n: Int): List<Int> {
+     fun generatePrimes(n: Int): List<Int> {
         val primes = mutableListOf<Int>()
         for (i in 2..n) {
             var isPrime = true
